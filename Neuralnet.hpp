@@ -16,6 +16,9 @@ public:
     Neuralnet(vector<int>);
     void printme();
     void printOutput();
+    void Train(vector<vector<float>>, vector<vector<float>>, float, int, int);
+    void batch(vector<vector<float>>, vector<vector<float>>);
+    void analyze();
     vector<float> feedforward(vector<float>);
 };
 

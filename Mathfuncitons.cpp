@@ -64,9 +64,19 @@ float Mathfunctions::cost(vector<float> y, vector<float> a)
     return 0.5 * (1 / (float)y.size()) * pow(Mathfunctions::mag(Mathfunctions::vectorsub(y, a)), 2);
 }
 
+float Mathfunctions::cost_prime(float y, float a)
+{
+    return a - y;
+}
+
 float Mathfunctions::sigmoid(float z) // z is weights dot inputs + bias
 {
-    return 1 / (1 + exp(z));
+    return 1 / (1 + exp(-z));
+}
+
+float Mathfunctions::sigmoid_prime(float z) // z is weights dot inputs + bias
+{
+    return sigmoid(z) * (1 - sigmoid(z));
 }
 
 float Mathfunctions::randnum(float low, float high)

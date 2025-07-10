@@ -1,5 +1,7 @@
 #include "Layer.hpp"
 #include "Node.hpp"
+#include "Mathfunctions.hpp"
+#include <iostream>
 #include <vector>
 
 Layer::Layer(int n, int prevn)
@@ -18,7 +20,7 @@ void Layer::printme()
     }
 }
 
-void Layer::feedforward(Layer prev)
+void Layer::feedforward(Layer &prev)
 {
     // given previous layer, feedforward
     vector<float> inputs = prev.getNodeVals();
@@ -35,6 +37,24 @@ void Layer::feedforward(vector<float> a)
     for (int i = 0; i < a.size(); i++)
     {
         nodes[i].val = a[i];
+    }
+}
+
+void Layer::backwards(Layer &nextlayer, Layer &prevlayer)
+{
+    // middle layer
+    for (int i = 0; i < nodes.size(); i++)
+    {
+        nodes[i].backwards(nextlayer, prevlayer, i);
+    }
+}
+
+void Layer::backwards(Layer &prevlayer, vector<float> y)
+{
+    // last layer
+    for (int i = 0; i < nodes.size(); i++)
+    {
+        nodes[i].backwards(prevlayer, y[i]);
     }
 }
 

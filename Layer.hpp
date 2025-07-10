@@ -13,8 +13,10 @@ public:
 
     Layer(int, int);
     void printme();
-    void feedforward(Layer);
+    void feedforward(Layer &);
     void feedforward(vector<float>);
+    void backwards(Layer &, Layer &);
+    void backwards(Layer &, vector<float>);
     vector<float> getNodeVals();
 };
 
