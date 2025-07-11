@@ -11,11 +11,13 @@ int main()
     vector<vector<float>> trainingdata;
     vector<vector<float>> trainingoutput;
 
+    vector<vector<float>> testingdata;
+    vector<vector<float>> testingoutput;
+
     // generate lots of trainingdata
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 1100; i++)
     {
         vector<float> newvec = {Mathfunctions::randnum(0, 1), Mathfunctions::randnum(0, 1), Mathfunctions::randnum(0, 1)};
-        trainingdata.push_back(newvec);
 
         int max = 0;
         for (int j = 0; j < newvec.size(); j++)
@@ -37,7 +39,17 @@ int main()
                 outvec.push_back(0);
             }
         }
-        trainingoutput.push_back(outvec);
+
+        if (i < 1000)
+        {
+            trainingdata.push_back(newvec);
+            trainingoutput.push_back(outvec);
+        }
+        else
+        {
+            testingdata.push_back(newvec);
+            testingoutput.push_back(outvec);
+        }
     }
 
     cout << "output50: " << trainingdata[5][0] << " " << trainingdata[5][1] << " " << trainingdata[5][2] << endl;
@@ -45,27 +57,14 @@ int main()
 
     Neuralnet mynet({3, 3, 2, 8, 3});
 
-    cout << "Pretrain: input data" << endl;
-    // feedforward neuralnet
+    // mynet.Train(trainingdata, trainingoutput, 0.1, 30, 3000, testingdata, testingoutput, 20);
 
-    mynet.feedforward({1, 0, 0});
+    // mynet.save("bestnet.csv");
+    mynet.load("bestnet.csv");
+
+    mynet.feedforward({0.95, 0.817, 0.90});
+
     mynet.printOutput();
-    cout << endl
-         << endl;
-
-    cout << "Training..." << endl
-         << endl;
-
-    mynet.Train(trainingdata, trainingoutput, 0.1, 10, 100000);
-
-    cout << endl;
-
-    cout << "Posttrain, training data: " << endl;
-    // feedforward neuralnet
-    mynet.feedforward({0.9, 0.5, 0.08});
-    mynet.printOutput();
-    cout << endl
-         << endl;
 
     return 0;
 }
